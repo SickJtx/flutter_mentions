@@ -3,14 +3,21 @@ part of flutter_mentions;
 /// A custom implementation of [TextEditingController] to support @ mention or other
 /// trigger based mentions.
 class AnnotationEditingController extends TextEditingController {
-  Map<String, Annotation> _mapping;
-  String? _pattern;
+  late Map<String, Annotation> _mapping;
+  late String? _pattern;
 
   // Generate the Regex pattern for matching all the suggestions in one.
-  AnnotationEditingController(this._mapping)
+  /* AnnotationEditingController(this._mapping)
       : _pattern = _mapping.keys.isNotEmpty
             ? "(${_mapping.keys.map((key) => RegExp.escape(key)).join('|')})"
-            : null;
+            : null; */
+  AnnotationEditingController();
+  void configure(Map<String, Annotation> mapping) {
+    _mapping = mapping;
+    _pattern = _mapping.keys.isNotEmpty
+        ? "(${_mapping.keys.map((key) => RegExp.escape(key)).join('|')})"
+        : null;
+  }
 
   /// Can be used to get the markup from the controller directly.
   String get markupText {
@@ -55,7 +62,8 @@ class AnnotationEditingController extends TextEditingController {
   }
 
   @override
-  TextSpan buildTextSpan({BuildContext? context, TextStyle? style, bool? withComposing}) {
+  TextSpan buildTextSpan(
+      {BuildContext? context, TextStyle? style, bool? withComposing}) {
     var children = <InlineSpan>[];
 
     if (_pattern == null || _pattern == '()') {

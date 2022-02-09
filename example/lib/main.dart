@@ -31,7 +31,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   GlobalKey<FlutterMentionsState> key = GlobalKey<FlutterMentionsState>();
-
+  AnnotationEditingController controller = AnnotationEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,12 +44,13 @@ class _MyHomePageState extends State<MyHomePage> {
           RaisedButton(
             child: Text('Get Text'),
             onPressed: () {
-              print(key.currentState!.controller!.markupText);
+              print(key.currentState!.controller.markupText);
             },
           ),
           Container(
             child: FlutterMentions(
               key: key,
+              controller: controller,
               suggestionPosition: SuggestionPosition.Top,
               maxLines: 5,
               minLines: 1,
